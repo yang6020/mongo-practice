@@ -6,9 +6,17 @@
     </style>
 </head>
 
+
 <h1>People</h1>
 {% for person in people %}
 <li>{{person.user}}, {{person.age}}</li>
+<button> delete user</button>
 {% else %}
 <li>No people found</li>
 {% endfor %}
+
+<form action="/" method="post">
+    Name: <input type="text" name="user"><br>
+    Age: <input type="number" name="age"><br>
+    <input type="submit" value="Submit" onClick="document.formu1.reset();">
+</form>

@@ -2,10 +2,14 @@ const express = require('express');
 const app = express();
 const engines = require('consolidate');
 const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
 
 app.engine('html', engines.nunjucks);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 MongoClient.connect(
   'mongodb://localhost:27017/mongotest',
@@ -16,9 +20,19 @@ MongoClient.connect(
       db.collection('mongotest')
         .find({})
         .toArray((err, people) => {
-          console.log(people);
           res.render('people', { people });
         });
+    });
+
+    app.post('/', (req, res) => {
+      let reqUser = req.body.user.trim().split('');
+      reqUser[0] = reqUser[0].toUpperCase();
+      reqUser = reqUser.join('');
+      db.collection('mongotest').insertOne({
+        user: reqUser,
+        age: req.body.age,
+      });
+      res.redirect('/' + req.body.user);
     });
 
     app.get('/:user', (req, res) => {
@@ -28,7 +42,6 @@ MongoClient.connect(
       db.collection('mongotest')
         .find({ user: reqQuery })
         .toArray((err, person) => {
-          console.log(person[0]);
           res.render('person', { person: person[0] });
         });
     });
