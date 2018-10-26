@@ -1,0 +1,14 @@
+<head>
+    <style>
+        body {
+            font-family: "helevetica", 'arial', sans-serif
+        }
+    </style>
+</head>
+
+{% if person %}
+<h1>{{person.user}}</h1>
+<li>age: {{person.age}}</li>
+{% else %}
+<li>person not found</li>
+{% endif %}

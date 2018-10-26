@@ -1,0 +1,14 @@
+<head>
+    <style>
+        body {
+            font-family: "helevetica", 'arial', sans-serif
+        }
+    </style>
+</head>
+
+<h1>People</h1>
+{% for person in people %}
+<li>{{person.user}}, {{person.age}}</li>
+{% else %}
+<li>No people found</li>
+{% endfor %}
